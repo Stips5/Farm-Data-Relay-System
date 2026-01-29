@@ -100,7 +100,7 @@ void beginFDRS()
   }
   esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
   esp_now_register_recv_cb(OnDataRecv);
-  esp_now_register_send_cb(OnDataSent);
+  esp_now_register_send_cb(esp_now_send_cb_t(OnDataSent));
 
   // Register peers
   esp_now_add_peer(gatewayAddress, ESP_NOW_ROLE_COMBO, 0, NULL, 0);
@@ -115,8 +115,7 @@ void beginFDRS()
     return;
   }
   esp_now_register_recv_cb(OnDataRecv);
-  esp_now_register_send_cb(OnDataSent);
-
+  esp_now_register_send_cb(esp_now_send_cb_t(OnDataSent));
   esp_now_peer_info_t peerInfo;
   peerInfo.ifidx = WIFI_IF_STA;
   peerInfo.channel = 0;
